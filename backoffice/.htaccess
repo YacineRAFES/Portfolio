@@ -1,0 +1,8 @@
+# RewriteEngine on
+
+# RewriteRule ^.{0}$ public/index.php
+
+# RewriteRule ^connexion$ public/index.php?page=1
+# RewriteRule ^tableau-de-bord$ public/index.php?page=2
+
+# RewriteRule ^traitementconnexion$ controller/traitement_connexion.php

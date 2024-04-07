@@ -1,0 +1,13 @@
+RewriteEngine on
+
+RewriteRule ^.{0}$ public/index.php
+RewriteRule ^accueil$ public/index.php?page=1
+RewriteRule ^louer$ public/index.php?page=2
+RewriteRule ^services$ public/index.php?page=3
+RewriteRule ^contact$ public/index.php?page=4
+RewriteRule ^option$ public/index.php?page=5
+RewriteRule ^guides$ public/index.php?page=6
+
+RewriteRule ^img/(.*)$ public/assets/images/$1
+
+RewriteRule ^message$ controller/traitement_message.php
