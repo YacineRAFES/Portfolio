@@ -127,12 +127,9 @@
 
         return $NomImageGuides['images'];
     }
-    function ModifCaracteristiques($bdd,$vehicule,$fichiers,$marques,$motorisation,$nb_de_place,$prix,$textareacourt,$textarealong,$boite_de_vitesse,$longueur,$wc_douche,$lit,$lit_supp,$id_caract,$id_img,$id_vehicule){
-        $reqModifCaracteristiques=$bdd->prepare('UPDATE caracteristiques_vehicules 
-                                                JOIN vehicules ON vehicules.id_vehicule=caracteristiques_vehicules.id_vehicule
-                                                JOIN images ON vehicules.id_vehicule=images.id_vehicule
+    function ModifCaracteristiques($bdd,$vehicule,$marques,$motorisation,$nb_de_place,$prix,$textareacourt,$textarealong,$boite_de_vitesse,$longueur,$wc_douche,$lit,$lit_supp,$id_caract,$id_vehicule,$idimg,$fichiers){
+        $reqModifCaracteristiques=$bdd->prepare('UPDATE caracteristiques_vehicules, images, vehicules
                                                 SET vehicules.vehicule=:vehicule,
-                                                    images.fichiers=:fichiers,
                                                     caracteristiques_vehicules.marques=:marques,
                                                     caracteristiques_vehicules.motorisation=:motorisation,
                                                     caracteristiques_vehicules.nb_de_place=:nb_de_place,
@@ -143,23 +140,36 @@
                                                     caracteristiques_vehicules.longueur=:longueur,
                                                     caracteristiques_vehicules.wc_douche=:wc_douche,
                                                     caracteristiques_vehicules.lit=:lit,
-                                                    caracteristiques_vehicules.lit_supp=:lit_supp
+                                                    caracteristiques_vehicules.lit_supp=:lit_supp,
+                                                    images.fichiers=:fichiers
                                                 WHERE caracteristiques_vehicules.id_caract=:id_caract
                                                 AND images.id_img=:id_img
                                                 AND vehicules.id_vehicule=:id_vehicule;');
-        $reqModifCaracteristiques->execute([':vehicule'=>$vehicule,':fichiers'=>$fichiers,':marques'=>$marques,':motorisation'=>$motorisation,':nb_de_place'=>$nb_de_place,':prix'=>$prix,':desc_short'=>$textareacourt,':desc_long'=>$textarealong,':boite'=>$boite_de_vitesse,':longueur'=>$longueur,':wc_douche'=>$wc_douche,':lit'=>$lit,':lit_supp'=>$lit_supp,':id_caract'=>$id_caract,':id_img'=>$id_img,':id_vehicule'=>$id_vehicule]);//16
+        $reqModifCaracteristiques->execute([':vehicule'=>$vehicule,
+                                            ':marques'=>$marques,
+                                            ':motorisation'=>$motorisation,
+                                            ':nb_de_place'=>$nb_de_place,
+                                            ':prix'=>$prix,
+                                            ':desc_short'=>$textareacourt,
+                                            ':desc_long'=>$textarealong,
+                                            ':boite'=>$boite_de_vitesse,
+                                            ':longueur'=>$longueur,
+                                            ':wc_douche'=>$wc_douche,
+                                            ':lit'=>$lit,
+                                            ':lit_supp'=>$lit_supp,
+                                            ':id_caract'=>$id_caract,
+                                            ':id_vehicule'=>$id_vehicule,
+                                            ':id_img'=>$idimg,
+                                            ':fichiers'=>$fichiers]);//16
 
     }
 
-    function ImageExistantCaract($bdd, $idimg, $id_caract, $id_vehicule){
-        $reqImageExistantCaract=$bdd->prepare('SELECT COUNT(fichiers) 
-                                               FROM vehicules,images,caracteristiques_vehicules 
-                                               WHERE caracteristiques_vehicules.id_caract=:id_caract 
-                                               AND images.id_img=:id_img
-                                               AND vehicules.id_vehicule=:id_vehicule
-                                               AND images.id_img=vehicules.id_vehicule=images.id_vehicule
-                                               AND vehicules.id_vehicule=caracteristiques_vehicules.id_vehicule');
-        $reqImageExistantCaract->execute([':id_img'=>$idimg,':id_caract'=>$id_caract,':id_vehicule'=>$id_vehicule]);
+    function ImageExistantCaract($bdd, $id_vehicule){
+        $reqImageExistantCaract=$bdd->prepare('SELECT *
+                                               FROM vehicules, images
+                                               WHERE vehicules.id_vehicule=:id_vehicule
+                                               AND images.id_vehicule=vehicules.id_vehicule');
+        $reqImageExistantCaract->execute([':id_vehicule'=>$id_vehicule]);
         $ImageExistantCaract=$reqImageExistantCaract->fetch();
 
         return $ImageExistantCaract;
@@ -291,13 +301,13 @@
 
         return $AfficheCateg;
     }
-    function ajouterVehicule($bdd,$vehicule,$id_categ,$id_img){
-        $reqajouterVehicule=$bdd->prepare('INSERT INTO vehicules(vehicule,id_categ,id_img) VALUES(?,?,?)');
-        $reqajouterVehicule->execute([$vehicule,$id_categ,$id_img]);
+    function ajouterVehicule($bdd,$vehicule,$id_categ){
+        $reqajouterVehicule=$bdd->prepare('INSERT INTO vehicules(vehicule,id_categ) VALUES(?,?)');
+        $reqajouterVehicule->execute([$vehicule,$id_categ]);
     }
-    function ajouterUneImage($bdd,$NomImage,$id_vehicule){
-        $reqajouterUneImage=$bdd->prepare('INSERT INTO images(fichiers,id_vehicule) VALUES(?)');
-        $reqajouterUneImage->execute([$NomImage,$id_vehicule]);
+    function ajouterUneImage($bdd,$NomImage,$id_vehicule,$main){
+        $reqajouterUneImage=$bdd->prepare('INSERT INTO images(fichiers,id_vehicule,main) VALUES(?,?,?)');
+        $reqajouterUneImage->execute([$NomImage,$id_vehicule,$main]);
     }
     function GuideAffichageAvecIDGuides($bdd, $idguide){
         $reqGuideAffichageAvecIDGuides=$bdd->prepare('SELECT * FROM guide WHERE id_guide=:idguide');
@@ -384,5 +394,9 @@
         $VerifIDVehiculeExistant=$req->fetch();
 
         return $VerifIDVehiculeExistant;
+    }
+    function ModifNomImage($bdd, $idimg, $filename){
+        $req=$bdd->prepare('UPDATE images SET fichiers=:fichiers WHERE id_img=:idimg');
+        $req->execute([':idimg'=>$idimg, ':fichiers'=>$filename]);
     }
 ?>

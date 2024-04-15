@@ -7,15 +7,17 @@ $LouerAffichageAvecIDCaract=LouerAffichageAvecIDCaract($bdd,$_GET['idcaract']);
     <table class="table table-bordered">
     <form class="form-control" action="../controller/traitement_modifierlouer.php?action=modifier" method="post" enctype='multipart/form-data'>
         <tr>
-            <td>Titre</td>
+            <td>Type de Vehicule</td>
             <td><input class="form-control" name="vehicule" type="text" value="<?php echo $LouerAffichageAvecIDCaract['vehicule']?>"></td>
         </tr>
             <input name="id_caract" value="<?php echo $LouerAffichageAvecIDCaract['id_caract']?>" hidden>
             <input name="id_vehicule" value="<?php echo $LouerAffichageAvecIDCaract['id_vehicule']?>" hidden>
+            
         <tr>
             <td>Marques</td>
             <td><input class="form-control" name="marques" type="text" value="<?php echo $LouerAffichageAvecIDCaract['marques']?>"></td>
         </tr>
+        
         <tr>
             <td>Motorisation</td>
             <td><input class="form-control" name="motorisation" type="text" value="<?php echo $LouerAffichageAvecIDCaract['motorisation']?>"></td>

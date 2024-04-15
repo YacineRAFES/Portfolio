@@ -18,7 +18,7 @@
     /***********************************************************/
 
     function afficherToutModele($bdd) {
-        $reqAfficherToutModele=$bdd->prepare("SELECT desc_short, desc_long, fichiers as img, vehicule, marques, motorisation, nb_de_place, prix, boite, longueur, wc_douche, lit, lit_supp FROM caracteristiques_vehicules, vehicules, images WHERE vehicules.id_vehicule=images.id_vehicule AND caracteristiques_vehicules.id_vehicule=vehicules.id_vehicule AND caracteristiques_vehicules.publier=1 AND caracteristiques_vehicules.delected=0");
+        $reqAfficherToutModele=$bdd->prepare("SELECT desc_short, desc_long, fichiers as img, vehicule, marques, motorisation, nb_de_place, prix, boite, longueur, wc_douche, lit, lit_supp FROM caracteristiques_vehicules, vehicules, images WHERE vehicules.id_vehicule=images.id_vehicule AND caracteristiques_vehicules.id_vehicule=vehicules.id_vehicule AND caracteristiques_vehicules.publier=1 AND caracteristiques_vehicules.delected=0 AND images.main=1");
         $reqAfficherToutModele->execute();
         $affToutModele=$reqAfficherToutModele->fetchAll();
         

@@ -7,6 +7,7 @@ RewriteRule ^services$ public/index.php?page=3
 RewriteRule ^contact$ public/index.php?page=4
 RewriteRule ^option$ public/index.php?page=5
 RewriteRule ^guides$ public/index.php?page=6
+RewriteRule ^backoffice$ backoffice/public
 
 RewriteRule ^img/(.*)$ public/assets/images/$1
 

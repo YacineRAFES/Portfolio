@@ -18,7 +18,7 @@
                 <div class="card mb-3 te" style="max-width: 500px;">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="../../assets/images/<?php echo $AffImgSlide['fichiers'] ?>" class="img-fluid rounded-start">
+                            <img src="../../public/assets/images/<?php echo $AffImgSlide['fichiers'] ?>" class="img-fluid rounded-start">
                         </div>
                             <div class="col-md-8">
                                 <div class="card-body">
