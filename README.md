@@ -1,6 +1,6 @@
 Voici mon projet personnel sur un site vitrine pour un Agence de location de Camping-car.
 
-En utilisant les languages : HTML, CSS, JS, AJAX, PHP, PHP, SQL.
+En utilisant les languages : HTML, CSS, JS, AJAX, PHP, PHP PDO, SQL.
 
 Application web BDD: phpMyAdmin.
 
